@@ -1,0 +1,11 @@
+{
+  "name": "nodejs-mongodb-jwt-project",
+  "version": "1.0.0",
+  "description": "integration project of nodejs, mongodb and jwt",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Prashant Agarwal",
+  "license": "MIT"
+}
