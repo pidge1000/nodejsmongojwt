@@ -1,8 +1,8 @@
 require('dotenv').config()
 const express = require('express')
 const app = express()
-const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
 
 const connection = mongoose.createConnection(process.env.MONGODB_URI, {
  	useNewUrlParser: true,
@@ -29,6 +29,7 @@ app.get('/checking', function(req, res){
    });
 });
 
+app.use('/login', require('./routes/login.routes'))
 app.use('/user', require('./routes/user.routes'))
 
 app.listen(PORT, function(){
