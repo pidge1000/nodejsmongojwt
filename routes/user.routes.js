@@ -4,22 +4,18 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const config = require('../config')
+const verifyToken = require('../auth/verifyToken')
 const User = require('../models/model/user.model')
 
-router.post('/me', function(req, res) {
+router.post('/me', verifyToken, function(req, res) {
 
-   console.log("AAAAAAAAAAAAAAAAAAAA")
+   User.findById(req.id, function (err, user) {
+      if (err) return res.status(500).json({ status: 500, message: 'There was a problem finding the user' })
+      if (!user) return res.status(404).json({ status: 404, message: 'No user found'})
 
-   if (req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
-      jwt.verify(req.headers.authorization.split(' ')[1], config.jwtSecret, function(err, decoded) {
-         if (err) return res.status(500).json({ auth: false, message: 'Failed to authenticate token.' })
-         
-         // if everything good, save to request for use in other routes
-         req.userId = decoded.id
-         console.log(decoded)
-         res.status(200).json({ auth: true, token: decoded });
-      })
-   }
+      console.log(user)
+      res.status(200).json({ status: 200, message: 'Success', user: user});
+   });
 
 })
 
