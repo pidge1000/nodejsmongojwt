@@ -33,6 +33,7 @@ app.get('/checking', function(req, res){
 
 app.use('/login', require('./routes/login.routes'))
 app.use('/user', verifyToken, require('./routes/user.routes'))
+app.use('/blog', verifyToken, require('./routes/blog.routes'))
 
 app.listen(PORT, function(){
    console.log('Server is running on Port',PORT);
