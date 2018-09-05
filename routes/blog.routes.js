@@ -1,15 +1,20 @@
 const express = require('express')
 const router = express.Router()
-const User = require('../models/model/blog.model')
+const Blog = require('../models/model/blog.model')
 
-router.post('/me', function(req, res) {
+router.post('/create', (req, res) => {
 
-   User.findById(req.id, function (err, user) {
-      if (err) return res.status(500).json({ status: 500, message: 'There was a problem finding the user' })
-      if (!user) return res.status(404).json({ status: 404, message: 'No user found'})
+	if (req.body.title && req.body.desc) {
 
-      res.status(200).json({ status: 200, message: 'Success', user: user});
-   });
+		const blog = new Blog({Title: req.body.title, Description: req.body.desc, Category: req.body.category, UserId: req.id, Status: 1})
+		blog.save((err, result) => {
+			if (err) res.status(500).json({ status: 500, message: 'Failed to Save user info' })
+			res.status(200).json({ status: 200, message: 'New blog has been created' })
+		})
+
+	} else {
+		return res.status(500).json({ status: 500, message: "Failed to process request" })
+	}
 
 })
 

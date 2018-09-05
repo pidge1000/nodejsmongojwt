@@ -1,12 +1,10 @@
 require('dotenv').config()
 const express = require('express')
 const app = express()
-const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const verifyToken = require('./auth/verifyToken')
 
 const PORT = 3000;
-exports.app = app;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
