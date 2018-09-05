@@ -7,21 +7,21 @@ const config = require('../config')
 const User = require('../models/model/user.model')
 
 
-router.post('/signup', function(req, res) {
+router.post('/signup', (req, res) => {
 
-   bcrypt.hash(req.body.password, config.jwtSalt, function(err, jwtHash) {
+   bcrypt.hash(req.body.password, config.jwtSalt, (err, jwtHash) => {
       if(err) {
          return res.status(500).json({ status: 500, message: "Failed to process request" })
       } else {
 
-         User.findOne({email: req.body.email}, function(err, result) {
+         User.findOne({email: req.body.email}, (err, result) => {
             if(err) return res.status(500).json({ status: 500, message: 'Failed to process request' })
 
             if(result) {
                res.status(200).json({ status: 200, message: 'User already exist' })
             } else {
                const user = new User({email: req.body.email, password: jwtHash})
-               user.save(function(err, result) {
+               user.save((err, result) => {
                   if(err) res.status(500).json({ status: 500, message: 'Failed to Save user info' })
 
                   if(result)
@@ -40,7 +40,7 @@ router.post('/signup', function(req, res) {
 
 router.post('/signin', function(req, res) {
 
-   User.findOne({email: req.body.email}, function(err, user) {
+   User.findOne({email: req.body.email}, (err, user) => {
       if (err) return res.status(500).json({status: 500, message: "Failed to process request" })
       if (!user) return res.status(404).json({ status: 404, message: "No user found" })
 

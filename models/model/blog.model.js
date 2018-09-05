@@ -17,7 +17,7 @@ blogSchema.pre('save', function(next) {
   next();
 });
 
-class UserModel {
+class blogModel {
 
 }
 
