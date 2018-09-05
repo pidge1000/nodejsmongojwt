@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const app = express()
+const _ = require('lodash');
 const bodyParser = require('body-parser')
 const verifyToken = require('./auth/verifyToken')
 

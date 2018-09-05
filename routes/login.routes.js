@@ -18,16 +18,16 @@ router.post('/signup', (req, res) => {
             if(err) return res.status(500).json({ status: 500, message: 'Failed to process request' })
 
             if(result) {
-               res.status(200).json({ status: 200, message: 'User already exist' })
+               return res.status(200).json({ status: 200, message: 'User already exist' })
             } else {
                const user = new User({email: req.body.email, password: jwtHash})
                user.save((err, result) => {
                   if(err) res.status(500).json({ status: 500, message: 'Failed to Save user info' })
 
                   if(result)
-                     res.status(200).json({ status: 200, message: 'New user has been created' })
+                     return res.status(200).json({ status: 200, message: 'New user has been created' })
                   else
-                     res.status(500).json({ status: 500, message: 'Failed to Save user info' })
+                     return res.status(500).json({ status: 500, message: 'Failed to Save user info' })
                })
             }
          })
@@ -48,7 +48,7 @@ router.post('/signin', function(req, res) {
       if (!passwordIsValid) return res.status(401).json({ status: 401, message: "Password does not match" })
 
       const jwtToken = jwt.sign({id: user._id}, config.jwtSecret, {expiresIn: config.jwtExpiresIn})
-      res.status(200).json({ status: 200, token: jwtToken, message: "Signin successfully" });
+      return res.status(200).json({ status: 200, token: jwtToken, message: "Signin successfully" });
    })
 
 })
