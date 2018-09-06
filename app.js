@@ -21,6 +21,7 @@ app.get('/checking', (req, res) => {
 app.use('/login', require('./routes/login.routes'))
 app.use('/user', verifyToken, require('./routes/user.routes'))
 app.use('/blog', verifyToken, require('./routes/blog.routes'))
+app.use('/promise/blog', verifyToken, require('./routes/promise.blog.routes'))
 
 app.listen(PORT, () => {
    console.log('Server is running on Port',PORT);

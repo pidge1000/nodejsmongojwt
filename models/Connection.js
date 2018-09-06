@@ -1,6 +1,7 @@
 require('dotenv').config()
 const mongoose = require('mongoose')
 
+mongoose.Promise = global.Promise
 const connection = mongoose.createConnection(process.env.MONGODB_URI, {
  	useNewUrlParser: true,
   	reconnectInterval: 500, // Reconnect every 500ms
