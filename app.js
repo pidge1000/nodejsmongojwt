@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 
 app.get('/checking', (req, res) => {
    	res.json({
-      "Tutorial": "Welcome to the Node express JWT Tutorial"
+      "Tutorial": "Welcome to the Node express JWT Tutorial!!!"
    });
 });
 
