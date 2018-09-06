@@ -5,7 +5,7 @@ const _ = require('lodash');
 const bodyParser = require('body-parser')
 const verifyToken = require('./auth/verifyToken')
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -24,5 +24,5 @@ app.use('/blog', verifyToken, require('./routes/blog.routes'))
 app.use('/promise/blog', verifyToken, require('./routes/promise.blog.routes'))
 
 app.listen(PORT, () => {
-   console.log('Server is running on Port',PORT);
+   console.log(`Server is running on Port ${PORT}`);
 });
