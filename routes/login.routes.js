@@ -3,7 +3,7 @@ const router = express.Router()
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const config = require('../config')
-const User = require('../models/model/user.model')
+const User = require('../models/model/User.model')
 
 
 router.post('/signup', (req, res) => {

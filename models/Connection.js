@@ -1,5 +1,6 @@
 require('dotenv').config()
 const mongoose = require('mongoose')
+require('mongoose-double')(mongoose);
 
 mongoose.Promise = global.Promise
 const connection = mongoose.createConnection(process.env.MONGODB_URI, {
