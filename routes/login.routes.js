@@ -10,7 +10,7 @@ router.post('/signup', (req, res) => {
 
    bcrypt.hash(req.body.password, config.jwtSalt, (err, jwtHash) => {
       if(err) {
-         return res.status(500).json({ status: 500, message: "Failed to process request" })
+         return res.status(500).json({ status: 500, message: "Failed to process requesttttt" })
       } else {
 
          User.findOne({ email: req.body.email })
@@ -19,7 +19,7 @@ router.post('/signup', (req, res) => {
             if (result) {
                return res.status(200).json({ status: 200, message: 'User already exist' })
             } else {
-               const user = new User({email: req.body.email, password: jwtHash})
+               const user = new User({instituate_id: req.body.instituate_id, email: req.body.email, password: jwtHash, first_name: req.body.first_name, last_name: req.body.last_name, type: req.body.type, status: 1 })
                return user.save()
             }
          })
@@ -30,7 +30,8 @@ router.post('/signup', (req, res) => {
                return res.status(500).json({ status: 500, message: 'Failed to Save user info' })
          })
          .catch((err) => {
-            return res.status(500).json({ status: 500, message: 'Failed to process request' })
+            console.log(err)
+            return res.status(500).json({ status: 500, message: 'Failed to process requestttttttddd' })
          })
       }
    })
