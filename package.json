@@ -10,12 +10,12 @@
   "author": "Prashant Agarwal",
   "license": "MIT",
   "dependencies": {
-    "bcrypt": "^3.0.0",
+    "bcrypt": "^2.0.1",
     "body-parser": "^1.18.3",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "jsonwebtoken": "^8.3.0",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.11",
     "mongoose": "^5.2.14",
     "mongoose-double": "0.0.1",
     "mysql": "^2.16.0"
