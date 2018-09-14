@@ -18,7 +18,8 @@
     "lodash": "^4.17.11",
     "mongoose": "^5.2.14",
     "mongoose-double": "0.0.1",
-    "mysql": "^2.16.0"
+    "mysql": "^2.16.0",
+    "nodemon": "^1.18.4"
   },
   "devDependencies": {
     "nodemon": "^1.18.4"
