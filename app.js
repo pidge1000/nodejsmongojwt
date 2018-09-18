@@ -1,7 +1,8 @@
 require('dotenv').config()
 const express = require('express')
 const app = express()
-const _ = require('lodash');
+const cors = require('cors')
+const _ = require('lodash')
 const bodyParser = require('body-parser')
 const verifyToken = require('./auth/verifyToken')
 
@@ -9,6 +10,13 @@ const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors({
+	'allowedHeaders': ['Content-Type'],
+  	'exposedHeaders': [],
+  	'origin': '*',
+  	'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  	'preflightContinue': false
+}))
 
 
 app.get('/checking', (req, res) => {
