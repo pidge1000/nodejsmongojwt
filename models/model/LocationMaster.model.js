@@ -8,7 +8,8 @@ const LocationMasterSchema = new Schema({
 	city_id: { type: Schema.Types.ObjectId, ref: 'CityMaster', required: true },
 	pincode: { type: String, maxlength: 50, default: null },
 	name: { type: String, maxlength: 100, default: null },
-	url: { type: String, maxlength: 100, unique: true, default: null }
+	url: { type: String, maxlength: 100, unique: true, default: null },
+	mysqlID: { type: Number, default: 0 }
 
 });
 

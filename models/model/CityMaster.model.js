@@ -6,7 +6,8 @@ const CityMasterSchema = new Schema({
 
 	country_id: { type: Schema.Types.ObjectId, ref: 'CountryMaster', required: true },
 	name: { type: String, maxlength: 100, default: null },
-	url: { type: String, maxlength: 100, unique: true, default: null }
+	url: { type: String, maxlength: 100, unique: true, default: null },
+	mysqlID: { type: Number, default: 0 }
 
 });
 

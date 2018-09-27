@@ -42,6 +42,7 @@ const InstituateSchema = new Schema({
   	},
   	created_on: { type: Date, default: Date.now },
 	modified_on: { type: Date, default: Date.now },
+	mysqlID: { type: Number, default: 0 }
 	
 });
 

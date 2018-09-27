@@ -21,7 +21,8 @@ const TeacherSchema = new Schema({
 	linkedin_url: { type: String, maxlength: 250, default: null },
 	status: { type: Number, min: 0, max: 2, default: 1 },  // 1 => Active, 0 => Inactive, 2 => Delete
 	created_on: { type: Date, default: Date.now },
-	modified_on: { type: Date, default: Date.now }
+	modified_on: { type: Date, default: Date.now },
+	mysqlID: { type: Number, default: 0 }
 
 });
 
