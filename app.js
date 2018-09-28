@@ -36,6 +36,7 @@ app.use('/migration/city', require('./migration/city.routes'))
 app.use('/migration/country', require('./migration/country.routes'))
 app.use('/migration/category', require('./migration/category.routes'))
 app.use('/migration/instituate', require('./migration/instituate.routes'))
+app.use('/migration/location', require('./migration/locationMaster.routes'))
 app.use('/migration/subCategory', require('./migration/subCategory.routes'))
 
 app.listen(PORT, () => {

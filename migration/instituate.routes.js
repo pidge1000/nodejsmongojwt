@@ -1,98 +1,45 @@
 const express = require('express')
 const router = express.Router()
-const connection = require('../models/MysqlConnection').connection;
+const Instituate = require('../models/model/Instituate.model')
+const CityMaster = require('../models/model/CityMaster.model')
+const CountryMaster = require('../models/model/CountryMaster.model')
+const LocationMaster = require('../models/model/LocationMaster.model')
+const mysqlConnection = require('../models/MysqlConnection').connection
 
-router.get('/countrymaster', (req, res) => {
+router.get('/', (req, res) => {
 
-	connection.connect(function(err) {
-	 	if (err) {
-	    	console.error('error connecting: ' + err.stack);
-	    	return;
-	  	}
-	 
-	  	console.log('connected as id ' + connection.threadId);
+	mysqlConnection.query('Select * from Instituate', function (error, results, fields) {
+  		if (error) return res.status(200).json({ status: 200, message: 'Error' })
+
+  		for (let i = 0; i < results.length; i++) {
+
+  			let globalCountry, globalCity, globalLocation;
+  			CountryMaster.findOne({ mysqlID: results[i].country_id })
+			.exec()
+			.then((getVal) => {
+				
+				globalCountry = getVal
+				return CityMaster.findOne({ mysqlID: results[i].city_id }).exec()
+			})
+			.then((getVal) => {
+				
+				globalCity = getVal
+				return CityMaster.findOne({ mysqlID: results[i].city_id }).exec()
+			})
+			.then((getValue) => {
+				const Obj = new Instituate({ country_id: globalCountry._id, city_id: getValue._id, pincode: results[i].pincode, name: results[i].name, url: results[i].url, mysqlID: results[i].id })
+	  			return Obj.save()
+			})
+			.then((result) => {
+				console.log('Successfully Inserted')
+			})
+			.catch((err) => {
+				console.log('Failed to Save data')
+			})
+  		}
+  		return res.status(200).json({ status: 200, message: 'Success' })
 	});
 
-	res.status(200).json({ status: 500, message: "Failed to process request" })
-
 })
-
-/*
-router.post('/', (req, res) => {
-
-	if (req.body.title && req.body.desc) {
-
-		const blog = new Blog({Title: req.body.title, Description: req.body.desc, Category: req.body.category, UserId: req.id, Status: 1})
-		blog.save((err, result) => {
-			if (err) return res.status(500).json({ status: 500, message: 'Failed to Save user info' })
-			return res.status(200).json({ status: 200, message: 'New blog has been created' })
-		})
-
-	} else {
-		return res.status(500).json({ status: 500, message: "Failed to process request" })
-	}
-
-})
-
-router.delete('/:id', (req, res) => {
-
-	if (req.params.id) {
-		Blog.findOneAndUpdate({ _id: req.params.id }, { Status: 0 }, (err, result) => {
-
-			if (err) return res.status(500).json({ status: 500, message: 'Failed to Save user info' })
-
-			if (result) {
-				return res.status(200).json({ status: 200, message: 'Blog has been deleted!' })
-			} else {
-				return res.status(200).json({ status: 200, message: 'Blog did not exist.' })
-			}
-		
-		})
-	} else {
-		return res.status(500).json({ status: 500, message: "Failed to process request" })
-	}
-
-})
-
-router.put('/:id', (req, res) => {
-
-	if (req.params.id && req.body.title && req.body.desc) {
-		Blog.findOne({ _id: req.params.id }, (err, blog) => {
-			if (err) return res.status(500).json({ status: 500, message: 'Blog did not exist.' })
-			blog.Title = req.body.title
-			blog.Description = req.body.desc
-			blog.Status = 1
-
-			blog.save((err, result) => {
-				if (err) return res.status(500).json({ status: 500, message: 'Failed to Save user info' })
-				return res.status(200).json({ status: 200, message: 'Blog has been updated!' })
-			})
-		
-		})
-	} else {
-		return res.status(500).json({ status: 500, message: "Failed to process request" })
-	}
-
-})
-
-router.get('/:id?', (req, res) => {
-
-	if (req.params.id) {
-		Blog.findOne({ _id: req.params.id, Status: 1 }, (err, blog) => {
-			if (err) return res.status(500).json({ status: 500, message: 'Failed to get blog info' })
-			return res.status(200).json({ status: 200, message: 'Blog list', blogs: JSON.stringify(blog) })
-		})
-	} else if (req.id) {
-		Blog.find({ UserId: req.id, Status: 1 }, (err, blogs) => {
-			if (err) return res.status(500).json({ status: 500, message: 'Failed to get blogs info' })
-			return res.status(200).json({ status: 200, message: 'Blogs list', blogs: JSON.stringify(blogs) })
-		})
-	} else {
-		return res.status(500).json({ status: 500, message: "Failed to process request" })
-	}
-
-})
-
-*/
 
 module.exports = router;

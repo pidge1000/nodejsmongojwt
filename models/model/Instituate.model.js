@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 const InstituateSchema = new Schema({
 
-	parent_id: { type: Schema.Types.ObjectId, ref: 'Instituate', default: 0 },
+	parent_id: { type: Schema.Types.ObjectId, ref: 'Instituate', default: null },
 	name: { type: String, maxlength: 250, default: null },
 	description: { type: String, default: null },
 	founded: { type: Number, default: 0 },
