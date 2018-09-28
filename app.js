@@ -34,7 +34,9 @@ app.use('/promise/blog', verifyToken, require('./routes/promise.blog.routes'))
 // Migration Routes Here (Migrate from Mysql to MongoDB Database)
 app.use('/migration/city', require('./migration/city.routes'))
 app.use('/migration/country', require('./migration/country.routes'))
+app.use('/migration/category', require('./migration/category.routes'))
 app.use('/migration/instituate', require('./migration/instituate.routes'))
+app.use('/migration/subCategory', require('./migration/subCategory.routes'))
 
 app.listen(PORT, () => {
    console.log(`Server is running on Port ${PORT}`);
