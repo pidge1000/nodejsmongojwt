@@ -13,7 +13,7 @@ const TeacherSchema = new Schema({
 	qualtification: { type: String, maxlength: 100, default: null },
 	age: { type: Number, default: 0 },  // Birth Year
 	unique_url: { type: String, maxlength: 250, default: null },
-	gender: { type: Number, min: 1, max: 2, default: 0 }, // 1 => Male, 2 => Female
+	gender: { type: Number, min: 0, max: 2, default: 0 }, // 1 => Male, 2 => Female
 	achivements: { type: String, default: null },
 	subject: { type: String, maxlength: 500, default: null },
 	image: { type: String, maxlength: 500, default: null },

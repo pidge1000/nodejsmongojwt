@@ -34,7 +34,10 @@ app.use('/promise/blog', verifyToken, require('./routes/promise.blog.routes'))
 
 
 // Migration Routes Here (Migrate from Mysql to MongoDB Database)
+app.use('/migration/user', verifyMigration, require('./migration/user.routes'))
 app.use('/migration/city', verifyMigration, require('./migration/city.routes'))
+app.use('/migration/teacher', verifyMigration, require('./migration/teacher.routes'))
+app.use('/migration/courses', verifyMigration, require('./migration/courses.routes'))
 app.use('/migration/country', verifyMigration, require('./migration/country.routes'))
 app.use('/migration/category', verifyMigration, require('./migration/category.routes'))
 app.use('/migration/instituate', verifyMigration, require('./migration/instituate.routes'))

@@ -8,7 +8,7 @@ const mysqlConnection = require('../models/MysqlConnection').connection
 
 router.get('/', (req, res) => {
 
-	mysqlConnection.query('Select * from User', function (error, results, fields) {
+	mysqlConnection.query('Select * from Courses', function (error, results, fields) {
   		if (error) return res.status(200).json({ status: 200, message: 'Error' })
 
   		for (let i = 0; i < results.length; i++) {
