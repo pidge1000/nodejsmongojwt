@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
 				console.log('Successfully Inserted')
 			})
 			.catch((err) => {
-				console.log('Failed to Save data')
+				console.log('Failed to Save data' + err + "MysqlID:" + results[i].id)
 			})
 
   		}
