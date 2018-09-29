@@ -5,6 +5,7 @@ const cors = require('cors')
 const _ = require('lodash')
 const bodyParser = require('body-parser')
 const verifyToken = require('./auth/verifyToken')
+const verifyMigration = require('./auth/verifyMigration')
 
 const PORT = process.env.PORT || 3000;
 
@@ -31,13 +32,14 @@ app.use('/user', verifyToken, require('./routes/user.routes'))
 app.use('/blog', verifyToken, require('./routes/blog.routes'))
 app.use('/promise/blog', verifyToken, require('./routes/promise.blog.routes'))
 
+
 // Migration Routes Here (Migrate from Mysql to MongoDB Database)
-app.use('/migration/city', require('./migration/city.routes'))
-app.use('/migration/country', require('./migration/country.routes'))
-app.use('/migration/category', require('./migration/category.routes'))
-app.use('/migration/instituate', require('./migration/instituate.routes'))
-app.use('/migration/location', require('./migration/locationMaster.routes'))
-app.use('/migration/subCategory', require('./migration/subCategory.routes'))
+app.use('/migration/city', verifyMigration, require('./migration/city.routes'))
+app.use('/migration/country', verifyMigration, require('./migration/country.routes'))
+app.use('/migration/category', verifyMigration, require('./migration/category.routes'))
+app.use('/migration/instituate', verifyMigration, require('./migration/instituate.routes'))
+app.use('/migration/location', verifyMigration, require('./migration/locationMaster.routes'))
+app.use('/migration/subCategory', verifyMigration, require('./migration/subCategory.routes'))
 
 app.listen(PORT, () => {
    console.log(`Server is running on Port ${PORT}`);
