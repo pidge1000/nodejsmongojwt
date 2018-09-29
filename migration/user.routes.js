@@ -1,9 +1,8 @@
 const express = require('express')
 const router = express.Router()
+const User = require('../models/model/User.model')
 const Instituate = require('../models/model/Instituate.model')
-const CityMaster = require('../models/model/CityMaster.model')
 const CountryMaster = require('../models/model/CountryMaster.model')
-const LocationMaster = require('../models/model/LocationMaster.model')
 const mysqlConnection = require('../models/MysqlConnection').connection
 
 router.get('/', (req, res) => {

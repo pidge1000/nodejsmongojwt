@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 
   		for (let i = 0; i < results.length; i++) {
 
-  			let globalCountry, globalCity;
+  			let globalCountry;
   			CountryMaster.findOne({ mysqlID: results[i].country_id })
 			.exec()
 			.then((getVal) => {
