@@ -49,7 +49,7 @@ router.post('/signin', function(req, res) {
          if (!passwordIsValid) return res.status(401).json({ status: 401, message: "Password does not match" })
          
          const jwtToken = jwt.sign({id: user._id}, config.jwtSecret, {expiresIn: config.jwtExpiresIn})
-         return res.status(200).json({ status: 200, token: jwtToken, message: "Signin successfully" });
+         return res.status(200).json({ status: 200, token: jwtToken, message: "Signin successfully" })
       } else {
          return res.status(404).json({ status: 404, message: "No user found" })
       }

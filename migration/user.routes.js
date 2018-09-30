@@ -49,7 +49,7 @@ router.get('/hash', (req, res) => {
 			.exec()
 			.then((user) => {
 				
-				let hash = bcrypt.hashSync(user.password, config.jwtSalt)
+				let hash = bcrypt.hashSync(results[i].password, config.jwtSalt)
 				user.password = hash
 				return user.save()
 			})
