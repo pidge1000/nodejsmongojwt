@@ -4,13 +4,14 @@ const app = express()
 const cors = require('cors')
 const _ = require('lodash')
 const bodyParser = require('body-parser')
+const mongooseMorgan = require('mongoose-morgan');
 const verifyToken = require('./auth/verifyToken')
 const verifyMigration = require('./auth/verifyMigration')
 
 const PORT = process.env.PORT || 3000;
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 app.use(cors({
 	'allowedHeaders': ['Content-Type', 'Authorization'],
   	'exposedHeaders': [],
@@ -19,6 +20,7 @@ app.use(cors({
   	'preflightContinue': false
 }))
 
+//app.use(mongooseMorgan({ collection: 'logs', connectionString: process.env.MONGODB_URI }, { }, 'dev'))
 
 app.get('/checking', (req, res) => {
    	res.json({
