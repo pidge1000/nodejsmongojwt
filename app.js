@@ -20,7 +20,7 @@ app.use(cors({
   	'preflightContinue': false
 }))
 
-//app.use(mongooseMorgan({ collection: 'logs', connectionString: process.env.MONGODB_URI }, { }, 'dev'))
+app.use(mongooseMorgan({ collection: 'logs', connectionString: process.env.MONGODB_URI }, { }, 'tiny'))
 
 app.get('/checking', (req, res) => {
    	res.json({
