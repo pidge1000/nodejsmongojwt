@@ -29,6 +29,7 @@ app.get('/checking', (req, res) => {
 
 app.use('/login', require('./routes/login.routes'))
 app.use('/user', verifyToken, require('./routes/user.routes'))
+app.use('/courses', verifyToken, require('./routes/courses.routes'))
 app.use('/blog', verifyToken, require('./routes/blog.routes'))
 app.use('/promise/blog', verifyToken, require('./routes/promise.blog.routes'))
 
