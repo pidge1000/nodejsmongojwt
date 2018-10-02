@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const mongoose = require('mongoose');
 const Courses = require('../models/model/Courses.model')
 
 router.post('/', (req, res) => {
@@ -85,7 +86,8 @@ router.get('/:id?', (req, res) => {
 			return res.status(500).json({ status: 500, message: 'Failed to get blog info' })
 		})
 	} else if (req.id) {
-		Courses.find({ instituate_id: req.instituate_id, Status: 1 })
+		
+		Courses.find({ instituate_id: req.instituate_id, status: 1 })
 		.exec()
 		.then((courses) => {
 			return res.status(200).json({ status: 200, message: 'Courses list', data: JSON.stringify(courses) })

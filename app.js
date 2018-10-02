@@ -1,11 +1,14 @@
 require('dotenv').config()
 const express = require('express')
 const app = express()
+const fs = require('fs')
 const cors = require('cors')
 const _ = require('lodash')
+const morgan = require('morgan')
 const bodyParser = require('body-parser')
-const mongooseMorgan = require('mongoose-morgan');
+const mongooseMorgan = require('mongoose-morgan')
 const verifyToken = require('./auth/verifyToken')
+const winston = require('./config/winstonConfig')
 const verifyMigration = require('./auth/verifyMigration')
 
 const PORT = process.env.PORT || 3000;
@@ -20,7 +23,19 @@ app.use(cors({
   	'preflightContinue': false
 }))
 
-app.use(mongooseMorgan({ collection: 'logs', connectionString: process.env.MONGODB_URI }, { }, 'tiny'))
+// Store Request Value in MongoDB
+app.use(mongooseMorgan({ 
+		collection: 'logs', 
+		connectionString: process.env.MONGODB_URI 
+	}, { }, 'tiny'))
+
+// Check and create Directory logs
+if(!fs.existsSync('./logs')) {
+	fs.mkdirSync('./logs')
+}
+
+// Store Log Value in File System
+app.use(morgan('combined', { stream: winston.stream }));
 
 app.get('/checking', (req, res) => {
    	res.json({
@@ -32,8 +47,6 @@ app.get('/checking', (req, res) => {
 app.use('/login', require('./routes/login.routes'))
 app.use('/user', verifyToken, require('./routes/user.routes'))
 app.use('/courses', verifyToken, require('./routes/courses.routes'))
-app.use('/blog', verifyToken, require('./routes/blog.routes'))
-app.use('/promise/blog', verifyToken, require('./routes/promise.blog.routes'))
 
 
 // Migration Routes Here (Migrate from Mysql to MongoDB Database)

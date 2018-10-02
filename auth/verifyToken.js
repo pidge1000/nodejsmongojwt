@@ -7,7 +7,7 @@ function verifyToken(req, res, next) {
         jwt.verify(req.headers.authorization.split(' ')[1], config.jwtSecret, function(err, user) {
             if (err) return res.status(500).json({ status: 500, message: 'Failed to authenticate token.' })
             req.id = user.id
-        	req.email = req.email
+        	req.email = user.email
         	req.instituate_id = user.instituate_id
             next();
         })
