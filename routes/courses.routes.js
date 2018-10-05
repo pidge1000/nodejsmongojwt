@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
+const winston = require('../config/winstonConfig')
 const Courses = require('../models/model/Courses.model')
 
 router.post('/', (req, res) => {
@@ -74,16 +75,17 @@ router.put('/:id?', (req, res) => {
 	}
 })
 
-router.get('/:id?', (req, res) => {
+router.get('/:id?', (req, res, next) => {
 
 	if (req.params.id) {
-		Courses.findOne({ _id: req.params.id, Status: 1 })
+		Courses.findOne({ _id: req.params.id, status: 1 })
 		.exec()
 		.then((course) => {
+			console.log(course)
 			return res.status(200).json({ status: 200, message: 'Course detail', data: JSON.stringify(course) })
 		})
 		.catch((err) => {
-			return res.status(500).json({ status: 500, message: 'Failed to get blog info' })
+    		next(new Error(err.message + '|Failed to get courses info'))
 		})
 	} else if (req.id) {
 		
@@ -93,12 +95,20 @@ router.get('/:id?', (req, res) => {
 			return res.status(200).json({ status: 200, message: 'Courses list', data: JSON.stringify(courses) })
 		})
 		.catch((err) => {
-			return res.status(500).json({ status: 500, message: 'Failed to get courses info' })
+			next(new Error(err.message + '|Failed to get courses info'))
 		})
 	} else {
 		return res.status(500).json({ status: 500, message: "Failed to process request" })
 	}
 
+})
+
+router.use(function(err, req, res, next) {
+	let status = err.status || 500
+	err.status = undefined
+	let errorArray = err.message.split('|')
+	winston.error(`${req.method} - ${req.originalUrl} - ${err.status || 404} - ${errorArray[0]} - ${Date.now()}`)
+    res.status(status).json({ status: status, message: errorArray[1] })
 })
 
 module.exports = router;

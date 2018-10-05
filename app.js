@@ -23,19 +23,22 @@ app.use(cors({
   	'preflightContinue': false
 }))
 
-// Store Request Value in MongoDB
-app.use(mongooseMorgan({ 
-		collection: 'logs', 
-		connectionString: process.env.MONGODB_URI 
-	}, { }, 'tiny'))
+// Store log into MongoDB/log file
+if(app.get('env') !== 'development') {
+	// Store Request Value in MongoDB
+	app.use(mongooseMorgan({ 
+			collection: 'logs', 
+			connectionString: process.env.MONGODB_URI 
+		}, { }, 'tiny'))
 
-// Check and create Directory logs
-if(!fs.existsSync('./logs')) {
-	fs.mkdirSync('./logs')
+	// Check and create Directory logs
+	if(!fs.existsSync('./logs')) {
+		fs.mkdirSync('./logs')
+	}
+
+	// Store Log Value in File System
+	app.use(morgan('combined', { stream: winston.stream }))
 }
-
-// Store Log Value in File System
-app.use(morgan('combined', { stream: winston.stream }));
 
 app.get('/checking', (req, res) => {
    	res.json({
@@ -60,6 +63,28 @@ app.use('/migration/instituate', verifyMigration, require('./migration/instituat
 app.use('/migration/location', verifyMigration, require('./migration/locationMaster.routes'))
 app.use('/migration/subCategory', verifyMigration, require('./migration/subCategory.routes'))
 
+
+// Page Not Found
+app.use(function(req, res, next) {
+    var err = new Error('Page Not Found!')
+    err.status = 404
+    next(err)
+})
+
+if(app.get('env') === 'development') {
+    app.use(function(err, req, res, next) {
+    	let status = err.status || 500
+    	err.status = undefined
+    	winston.error(`${req.method} - ${req.originalUrl} - ${err.status || 404} - ${err.message} - ${Date.now()}`)
+        res.status(status).json({ status: status, message: err.message, error: err })
+    })
+}
+
+app.use(function(err, req, res, next) {
+	winston.error(`${req.method} - ${req.originalUrl} - ${err.status || 404} - ${err.message} - ${Date.now()}`)
+    res.status(err.status || 500).json({ message: err.message, error: {} })
+})
+
 app.listen(PORT, () => {
    console.log(`Server is running on Port ${PORT}`);
-});
+})
