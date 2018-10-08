@@ -2,27 +2,18 @@ const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
 const winston = require('../config/winstonConfig')
-const Courses = require('../models/model/Courses.model')
-const SubCategory = require('../models/model/SubCategory.model')
+const Teacher = require('../models/model/Teacher.model')
 
 router.post('/', (req, res) => {
 
-	if (req.body.child_category_id && req.instituate_id) {
-		SubCategory.find({ _id: req.body.child_category_id })
-		.exec()
-		.then((subCategory) => {
-			if(subCategory) {
-				const  course = new Courses({master_category_id: subCategory.category_id, child_category_id: subCategory._id, instituate_id: req.instituate_id, price: req.body.price, duration: req.body.duration, avg_no_student: req.body.avg_no_student, description: req.body.description, teaching_pattern: req.body.teaching_pattern, status: 1})
-				return course.save()
-			} else {
-				return res.status(200).json({ status: 200, message: "Failed to Save courses info" })
-			}
-		})
+	if (req.body.first_name && req.body.experience && req.body.subject && req.instituate_id) {
+		const  teacher = new Teacher({instituate_id: req.instituate_id, designation: req.body.designation, first_name: req.body.first_name, last_name: req.body.last_name, experience: req.body.experience, qualtification: req.body.qualtification, age: req.body.age, unique_url: req.body.unique_url, gender: req.body.gender, achivements: req.body.achivements, subject: req.body.subject, image: req.body.image, fb_url: req.body.fb_url, linkedin_url: req.body.linkedin_url, yt_url: req.body.yt_url, subject: req.body.subject, status: 1})
+		teacher.save()
 		.then((result) => {
-			return res.status(200).json({ status: 200, message: 'New course has been created' })
+			return res.status(200).json({ status: 200, message: 'New teacher has been added' })
 		})
 		.catch((err) => {
-			next(new Error(err.message + '|Failed to Save courses info'))
+			next(new Error(err.message + '|Failed to Save teacher info'))
 		})
 		
 	} else {
@@ -34,17 +25,17 @@ router.post('/', (req, res) => {
 router.delete('/:id?', (req, res) => {
 
 	if (req.params.id) {
-		Courses.findOneAndUpdate({ _id: req.params.id }, { Status: 2 })
+		Teacher.findOneAndUpdate({ _id: req.params.id }, { Status: 2 })
 		.exec()
 		.then((result) => {
 			if (result) {
-				return res.status(200).json({ status: 200, message: 'Course has been deleted!' })
+				return res.status(200).json({ status: 200, message: 'Teacher has been deleted!' })
 			} else {
-				return res.status(200).json({ status: 200, message: 'Course did not exist.' })
+				return res.status(200).json({ status: 200, message: 'Teacher did not exist.' })
 			}
 		})
 		.catch((err) => {
-			next(new Error(err.message + '|Failed to Save user info'))
+			next(new Error(err.message + '|Failed to Save teacher info'))
 		})
 	} else {
 		return res.status(500).json({ status: 500, message: "Failed to process request" })
@@ -86,23 +77,22 @@ router.put('/:id?', (req, res) => {
 router.get('/:id?', (req, res, next) => {
 
 	if (req.params.id) {
-		Courses.findOne({ _id: req.params.id, status: 1 })
+		Teacher.findOne({ _id: req.params.id, status: 1 })
 		.exec()
-		.then((course) => {
-			console.log(course)
-			return res.status(200).json({ status: 200, message: 'Course detail', data: JSON.stringify(course) })
+		.then((teacher) => {
+			return res.status(200).json({ status: 200, message: 'Teacher detail', data: JSON.stringify(teacher) })
 		})
 		.catch((err) => {
-    		next(new Error(err.message + '|Failed to get courses info'))
+    		next(new Error(err.message + '|Failed to get teacher info'))
 		})
 	} else if (req.id) {
-		Courses.find({ instituate_id: req.instituate_id, status: 1 })
+		Teacher.find({ instituate_id: req.instituate_id, status: 1 })
 		.exec()
-		.then((courses) => {
-			return res.status(200).json({ status: 200, message: 'Courses list', data: JSON.stringify(courses) })
+		.then((teachers) => {
+			return res.status(200).json({ status: 200, message: 'Teachers list', data: JSON.stringify(teachers) })
 		})
 		.catch((err) => {
-			next(new Error(err.message + '|Failed to get courses info'))
+			next(new Error(err.message + '|Failed to get teachers info'))
 		})
 	} else {
 		return res.status(500).json({ status: 500, message: "Failed to process request" })

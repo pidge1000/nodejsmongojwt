@@ -50,6 +50,8 @@ app.get('/checking', (req, res) => {
 app.use('/login', require('./routes/login.routes'))
 app.use('/user', verifyToken, require('./routes/user.routes'))
 app.use('/courses', verifyToken, require('./routes/courses.routes'))
+app.use('/teacher', verifyToken, require('./routes/teacher.routes'))
+app.use('/subCategory', verifyToken, require('./routes/subCategory.routes'))
 
 
 // Migration Routes Here (Migrate from Mysql to MongoDB Database)
