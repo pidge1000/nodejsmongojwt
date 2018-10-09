@@ -5,6 +5,8 @@ const fs = require('fs')
 const cors = require('cors')
 const _ = require('lodash')
 const morgan = require('morgan')
+const config = require('./config')
+const jwt = require('jsonwebtoken')
 const bodyParser = require('body-parser')
 const mongooseMorgan = require('mongoose-morgan')
 const verifyToken = require('./auth/verifyToken')
@@ -44,6 +46,17 @@ app.get('/checking', (req, res) => {
    	res.json({
       "Tutorial": "Welcome to the Node express JWT Tutorial!!!"
    });
+});
+
+app.get('/tokenVerify', (req, res) => {
+    if (req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+        jwt.verify(req.headers.authorization.split(' ')[1], config.jwtSecret, function(err, user) {
+            if (err) return res.status(500).json({ status: 500, message: 'Failed to authenticate token.' })
+            return res.status(200).json({ status: 200, message: 'Token Verified.'})
+        })
+    } else {
+        return res.status(401).json({ status: 401, message: 'No token!'})
+    }
 });
 
 
